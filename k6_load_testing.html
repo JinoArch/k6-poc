@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>K6.io – Open source load testing tool and SaaS for engineering teams</title>
+
+		<meta name="description" content="A framework for load testing">
+		<meta name="author" content="Jino Jose">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<a href="https://k6.io/">
+						<img src="https://yt3.ggpht.com/9mD5UVq9v0F0JsJYQN-zMB8AfV2Wi4SOdF7B2AAxlfekZWgitfj9ewjXhvWmGYJe3RIff0gXWw=s900-c-k-c0x00ffffff-no-rj" alt="k6.io logo" style="height: 180px; margin: 0 auto 4rem auto; background: transparent;" class="demo-logo">
+					</a>
+					<h3>Loadtesting Tool</h3>
+					<p>
+						<small> By <a href="https://github.com/JinoArch">Jino</a><a href="https://github.com/orgs/rewards-devops/teams/platform/members?query=membership:child-team">(PDO)</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h2>why we need? What is it??</h2>
+					<p> - BOTTLENECK FINDINGS </p>
+					<p>	- Load testing tool (OSS and Cloud)</p>
+					<p> - Golang - package js</p>
+				</section>
+
+				<!-- Example of nested vertical slides -->
+				<section>
+					<section>
+						<h2>Basics</h2>
+						<p>RPS:= Request per interval. YES, referred to as throughput.</p>
+						<p>VUS:= Virtual users - mimics client.</p>
+						<p>GO ROUTINE:= lightweight thread - independent execution - function or method .</p>
+						<br>
+					</section>
+					<section>
+						<h2>Test types</h2>
+						<ul>
+							<li>Smoke test</li>
+							<li>Load test</li>
+							<li>Stress test</li>
+							<li>Spike test</li>
+							<li>Soak test</li>
+						  </ul> 
+					</section>
+					<section>
+						<h2>Test Creation</h2>
+						<ol>
+							<li> Write your own script (recommended)</li>
+							<li>convert existing postman scripts collections</li>
+							<a href="https://k6.io/docs/test-authoring/recording-a-session/har-converter/"><li>Proxy recording as HAR files (Node Js tool)</li></a>
+							<li>browser recorder (chrome extension)</li>
+							<a href="https://k6.io/blog/load-testing-your-api-with-swagger-openapi-and-k6/"><li>OpenAPI-Generator</li></a>
+						  </ol> 
+						<br>
+						<a href="#/2">
+							<img  width="578" height="238" data-src="https://k6.io/docs/static/4a876fa7fdfbc73efb4cf39f9926848c/9b128/our-tools.png" alt="Up arrow">
+						</a>
+					</section>
+					<section>
+						<h2><a href="https://github.com/grafana/awesome-k6">Articles</a> </h2>
+						<ul>
+							<li>Integrating k6 with Apache Kafka </li>
+							<li>Test and visualize with InfluxDB, Grafana and K6</li>
+							<li>Load Testing Your API with Swagger/OpenAPI and k6</li>
+							<li>Load Testing SQL Databases with k6 </li>
+							<li>Load Testing with Azure DevOps and k6 </li>
+							<li>slack integration </li>
+						  </ul> 
+					</section>
+				</section>
+
+				<section>
+					<h2>Comparison</h2>
+					<p>
+					<a href="https://rakutenrewards.atlassian.net/wiki/spaces/TD/pages/edit-v2/41507721773" target="_blank">Jmeter vs k6</a>
+					</p>
+				</section>
+
+				<section data-visibility="hidden">
+					<h2>Hidden Slides</h2>
+					<p>
+						This slide is visible in the source, but hidden when the presentation is viewed. You can show all hidden slides by setting the `showHiddenSlides` config option to `true`.
+					</p>
+				</section>
+
+				<section>
+					<h2>Issues</h2>
+					<p>
+					<a href="https://rakutenrewards.atlassian.net/wiki/spaces/TD/pages/41508505143/Issues+-Jmeter" target="_blank">Jmeter_QA</a>
+					</p>
+				</section>
+
+				<section data-visibility="hidden">
+					<h2>Hidden Slides</h2>
+					<p>
+						This slide is visible in the source, but hidden when the presentation is viewed. You can show all hidden slides by setting the `showHiddenSlides` config option to `true`.
+					</p>
+				</section>
+
+				<section data-auto-animate>
+					<h2 data-id="code-title">SIMPLE SCRIPT</h2>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+import http from 'k6/http';
+import { sleep, check } from 'k6';
+
+export default function () {
+http.get('https://lt1-www.rakuten.com/	');
+sleep(1);
+}
+					</code></pre>
+					<p>Basic http/get </p>
+				</section>
+
+				<section data-auto-animate>
+					<h2 data-id="code-title">More complex</h2>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="|4,8-11|17|22-24"><script type="text/template">
+						import http from 'k6/http';
+						import { sleep } from 'k6';
+						
+						export const options = {
+						  stages: [
+							{ duration: '10s', target: 100 }, // below normal load
+							{ duration: '1m', target: 100 },
+							{ duration: '10s', target: 1400 }, // spike to 1400 users
+							{ duration: '3m', target: 1400 }, // stay at 1400 for 3 minutes
+							{ duration: '10s', target: 100 }, // scale down. Recovery stage.
+							{ duration: '3m', target: 100 },
+							{ duration: '10s', target: 0 },
+						  ],
+						};
+						export default function () {
+						  const BASE_URL = 'https://lt1-www.rakuten.com'; // make sure this is not production
+						
+						  const params = {
+							headers: { "nonprod-employee" : "Rs8qs/u9/2SFQ5R", },
+						};
+						let res = http.get('${BASE_URL}', params);
+						check(res, { 'status was 200': r => r.status == 200 });
+						sleep(1);	
+						}
+					</script></code></pre>
+				</section>
+
+
+				<section>
+					<section>
+						<h2>K8s Operator</h2>
+						<ul>
+							<li>run distributed k6 tests on your own infrastructure</li>
+							<li>running large load tests - single node</li>
+							<li>CRD - manage applications</li>
+						  </ul>
+						<br>
+					</section>
+					<section>
+						<h2>Work Flow</h2>
+						  <a href="#/2">
+							<img  width="578" height="238" data-src="https://k6.io/blog/static/8c12a4c120f2f4feed3d7284df4be089/14945/pattern-k6.png" alt="our-tools">
+						</a>
+					</section>
+					<section data-auto-animate>
+						<h4 data-id="code-title">k6 kind</h4>
+						<p>To communicate with the operator, we’ll use a custom resource called K6</p>
+						<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+							apiVersion: k6.io/v1alpha1
+							kind: K6
+							metadata:
+							  name: k6-sample
+							spec:
+							  //to split the workload between the jobs - k8s operator
+							  //Configures how many k6 test runner jobs the operator should spawn. 
+							  parallelism: 4
+							  arguments: --out statsd 
+							  script:
+								configMap:
+								  name: simple-script
+								  file: script.js
+							  runner:  //adding resource limits, setting up affinity and anti-affinity rules
+								env:
+								  - name: K6_STATSD_ENABLE_TAGS
+									value: "true"
+								  - name: K6_STATSD_ADDR
+									value: qa1-ebdatadog01.nonprod.ebates.local:8125
+						</code></pre>
+					</section>
+					<section>
+						<h4>Drawbacks</h4>
+						<ol>
+							<li>No Metrics aggregated - grafana,logstash, fluentd, splunk</li>
+							<li>expermintal</li>
+							<li>maintenance burden associated with self-hosting</li>
+						  </ol> 
+						<br>
+					</section>
+				</section>
+
+				<section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+					<p> <a href="https://revealjs.com/auto-animate/">DEMO</a></p>
+					<div class="r-hstack justify-center">
+						<div data-id="box1" style="background: #999; width: 50px; height: 50px; margin: 10px; border-radius: 5px;"></div>
+						<div data-id="box2" style="background: #999; width: 50px; height: 50px; margin: 10px; border-radius: 5px;"></div>
+						<div data-id="box3" style="background: #999; width: 50px; height: 50px; margin: 10px; border-radius: 5px;"></div>
+					</div>
+				</section>
+				<section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+					<div class="r-hstack justify-center">
+						<div data-id="box1" data-auto-animate-delay="0" style="background: cyan; width: 150px; height: 100px; margin: 10px;"></div>
+						<div data-id="box2" data-auto-animate-delay="0.1" style="background: magenta; width: 150px; height: 100px; margin: 10px;"></div>
+						<div data-id="box3" data-auto-animate-delay="0.2" style="background: yellow; width: 150px; height: 100px; margin: 10px;"></div>
+					</div>
+					<h4 style="margin-top: 20px;"><a href="https://github.com/rewards-devops/loadtest-k6-grafanalabs">k6 via github actions (k8s operator)</a></h4>
+
+				</section>
+				<section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+					<div class="r-stack">
+						<div data-id="box1" style="background: cyan; width: 300px; height: 300px; border-radius: 200px;"></div>
+						<div data-id="box2" style="background: magenta; width: 200px; height: 200px; border-radius: 200px;"></div>
+						<div data-id="box3" style="background: yellow; width: 100px; height: 100px; border-radius: 200px;"></div>
+					</div>
+					<h2 style="margin-top: 20px;">Swagger URL test</h2>
+				</section>
+
+
+				<section>
+					<section id="fragments">
+						<h2>Questions</h2>
+						<p class="fragment">??</p>
+						<p><span class="fragment">??...</span> <span class="fragment">???..</span> <span class="fragment">?!</span></p>
+
+						<aside class="notes">
+							This slide has fragments which are also stepped through in the notes window.
+						</aside>
+					</section>
+				</section>
+
+
+			</div>
+
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/search/search.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+
+			// Also available as an ES module, see:
+			// https://revealjs.com/initialization/
+			Reveal.initialize({	
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+			});
+
+		</script>
+
+	</body>
+</html>
